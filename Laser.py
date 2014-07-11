@@ -6,8 +6,6 @@ italk = socket.socket()
 pos = socket.socket()
 def connect():
 	italk.connect((sys.argv[1],12345))
-	print "Se connecto"
-	italk.sendall("Probando")
 	print(italk.recv(1000))
 	pos.connect((sys.argv[1],12347))
 	return italk
@@ -64,8 +62,11 @@ def testfire():
 	data = data.replace(" ","")
 	italk.send(data)
 	print(italk.recv(1000))
-	
-	
+def gohome():
+	italk.send("pass 32\n")
+	print(italk.recv(100))
+	italk.sendall("\xaa\x01\x14\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xbb\xcc\xbb\xcc\xbb\xcc\xbb\xcc")
+	print(italk.recv(100))
 connect()
 if sys.argv[2] == "jogu": 
 	jogup()
@@ -77,6 +78,8 @@ elif sys.argv[2] == "jogr":
 	jogright()
 elif sys.argv[2] == "testF":
 	testfire()
+elif sys.argv[2] == "gohome":
+	gohome()
 else:
 	print("Valid Values are : jogu, jogd, jogl, jogr,testF")
 
